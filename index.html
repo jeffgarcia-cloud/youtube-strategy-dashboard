@@ -14,13 +14,20 @@
   }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 13px; line-height: 1.5; }
 
+  .ic { width: 14px; height: 14px; display: inline-block; vertical-align: -2px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .ic-lg { width: 16px; height: 16px; vertical-align: -3px; }
+
+  .brand-banner { background: var(--surface3); border-bottom: 1px solid var(--border); padding: 7px 24px; text-align: center; font-size: 11px; color: var(--text2); letter-spacing: 0.2px; }
+  .brand-banner strong { color: var(--text); font-weight: 700; }
+  .brand-banner .ic { color: var(--accent); }
+
   .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 20px 24px; border-bottom: 1px solid var(--border); }
-  .channel-badge { display:inline-block; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .channel-badge { display:inline-flex; align-items:center; gap:6px; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
   .header h1 { font-size: 20px; font-weight: 700; color: white; }
   .header p { font-size: 12px; color: var(--text2); }
 
   .tabs { display: flex; gap: 2px; padding: 12px 24px 0; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
-  .tab { padding: 8px 18px; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .tab { display: flex; align-items: center; gap: 6px; padding: 8px 18px; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
   .tab:hover { color: var(--text); }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
@@ -32,7 +39,7 @@
   @media (max-width: 700px) { .grid-3 { grid-template-columns: 1fr; } .compare-grid { grid-template-columns: 1fr !important; } .week { grid-template-columns: repeat(4, 1fr) !important; } .stat-row { grid-template-columns: 1fr 1fr !important; } .mix { grid-template-columns: repeat(3, 1fr) !important; } }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-  .card-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .card-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 
   .badge { display: inline-flex; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
   .badge-green { background: rgba(46,213,115,0.15); color: var(--green); }
@@ -46,25 +53,25 @@
   .section-title:first-child { margin-top: 0; }
 
   .big-statement { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; border-left: 4px solid; }
-  .bs-title { font-size: 15px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .bs-title { font-size: 15px; font-weight: 700; color: white; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
   .bs-body { font-size: 12.5px; color: var(--text2); line-height: 1.65; }
 
   .pillar { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; border-left: 4px solid; }
   .pillar-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 6px; }
-  .pillar-name { font-size: 14px; font-weight: 700; }
+  .pillar-name { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 7px; }
   .pillar-what { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
   .example-title { font-family: monospace; font-size: 11px; color: var(--accent); background: rgba(108,99,255,0.08); padding: 3px 8px; border-radius: 4px; display: inline-block; margin: 2px 4px 2px 0; }
 
   .phase-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; border-top: 3px solid; }
-  .phase-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .phase-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; display: flex; align-items: center; gap: 7px; }
   .phase-time { font-size: 11px; color: var(--text3); margin-bottom: 10px; }
   .step { display: flex; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--text2); }
   .step b { color: var(--text); }
 
   .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
   .compare-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-  .compare-label { font-size: 11px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .row { display: flex; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--text2); border-bottom: 1px solid var(--border); }
+  .compare-label { font-size: 11px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+  .row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--text2); border-bottom: 1px solid var(--border); }
   .row:last-child { border-bottom: none; }
 
   .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 4px; }
@@ -81,15 +88,16 @@
   .wd { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 6px; text-align: center; min-height: 92px; }
   .wd.record { border-color: var(--red); background: rgba(255,71,87,0.06); }
   .wd.pub { border-color: var(--accent); }
-  .wd-n { font-size: 10px; font-weight: 800; color: var(--text3); letter-spacing: 0.5px; }
+  .wd-n { font-size: 10px; font-weight: 800; color: var(--text3); letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 4px; }
   .wd.record .wd-n { color: var(--red); }
   .wd.pub .wd-n { color: var(--accent); }
   .wd-task { font-size: 10px; color: var(--text2); background: var(--surface3); border-radius: 4px; padding: 3px 5px; margin-top: 5px; }
   .wd-task.hl { color: var(--text); font-weight: 600; }
 
   .streak-row { display: flex; gap: 6px; margin: 4px 0 8px; flex-wrap: wrap; }
-  .streak-cell { flex: 1; min-width: 48px; height: 26px; border-radius: 6px; background: var(--surface3); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text3); cursor: pointer; user-select: none; }
+  .streak-cell { flex: 1; min-width: 48px; height: 26px; border-radius: 6px; background: var(--surface3); display: flex; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: 700; color: var(--text3); cursor: pointer; user-select: none; }
   .streak-cell.done { background: rgba(46,213,115,0.18); color: var(--green); }
+  .streak-cell .ic { width: 11px; height: 11px; }
 
   .idea-table { width: 100%; border-collapse: collapse; }
   .idea-table th { text-align: left; font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 10px; border-bottom: 1px solid var(--border); }
@@ -103,18 +111,54 @@
 </head>
 <body>
 
+<!-- ICON SPRITE — self-contained, no external dependency -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="i-gamepad" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="4"/><path d="M7 10v2M6 11h2"/><circle cx="15.5" cy="10.5" r=".9" fill="currentColor" stroke="none"/><circle cx="17.5" cy="12.5" r=".9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-columns" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 6V4M12 20v-2M6 12H4M20 12h-2M8.5 8.5 7 7M17 17l-1.5-1.5M8.5 15.5 7 17M17 7l-1.5 1.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V12M10 20V7M16 20v-9M4 20h16"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-4 10.4c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3z"/><path d="M9.5 18.5h5M10.5 21h3"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 2h12M6 22h12"/><path d="M8 2c0 4.5 4 5.5 4 10s-4 5.5-4 10M16 2c0 4.5-4 5.5-4 10s4 5.5 4 10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="M20 20l-5.5-5.5"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.2 20c.2-2.3 1.8-4 3.8-4.3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></symbol>
+  <symbol id="i-infinity" viewBox="0 0 24 24"><path d="M6.5 9a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 3-1.7 3.5 3.5 0 0 0 3 1.7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0-3 1.7A3.5 3.5 0 0 0 6.5 9z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 12l10 5 10-5M2 17l10 5 10-5"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 8a9 9 0 0 0-15-5.7L3 5"/><path d="M3 3v5h5"/><path d="M3 16a9 9 0 0 0 15 5.7L21 19"/><path d="M21 21v-5h-5"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 3 8 9l4 12 4-12z"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M6 8h12M8 21h8"/><path d="M6 8l-3 6a3.2 3.2 0 0 0 6.2 0zM18 8l-3 6a3.2 3.2 0 0 0 6.2 0z"/></symbol>
+  <symbol id="i-clapper" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 9l1.5-4.5h4L7 9M9 9l1.5-4.5h4L13 9M15 9l1.3-3.5h3L18.3 9"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.5 15.5M8.5 8.5 20 20"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</defs>
+</svg>
+
+<div class="brand-banner">
+  <svg class="ic"><use href="#i-gamepad"></use></svg>
+  Made by <strong>Jefferson Garcia</strong> — custom strategy dashboard for <strong>Shayan</strong>
+</div>
+
 <div class="header">
-  <div class="channel-badge">🎮 Gaming Channel · US</div>
+  <div class="channel-badge"><svg class="ic"><use href="#i-gamepad"></use></svg> Gaming Channel · US</div>
   <h1>YouTube Strategy Dashboard</h1>
   <p>From gameplays to game reviews — the strategy in 4 sections</p>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('estrategia')">🎯 Strategy</div>
-  <div class="tab" onclick="switchTab('contenido')">🏛️ Content</div>
-  <div class="tab" onclick="switchTab('produccion')">⚙️ Production</div>
-  <div class="tab" onclick="switchTab('metas')">📊 Goals</div>
-  <div class="tab" onclick="switchTab('ideas')">💡 Idea Bank</div>
+  <div class="tab active" onclick="switchTab('estrategia')"><svg class="ic ic-lg"><use href="#i-target"></use></svg> Strategy</div>
+  <div class="tab" onclick="switchTab('contenido')"><svg class="ic ic-lg"><use href="#i-columns"></use></svg> Content</div>
+  <div class="tab" onclick="switchTab('produccion')"><svg class="ic ic-lg"><use href="#i-gear"></use></svg> Production</div>
+  <div class="tab" onclick="switchTab('metas')"><svg class="ic ic-lg"><use href="#i-chart"></use></svg> Goals</div>
+  <div class="tab" onclick="switchTab('ideas')"><svg class="ic ic-lg"><use href="#i-bulb"></use></svg> Idea Bank</div>
 </div>
 
 <div class="content">
@@ -133,18 +177,18 @@
   <div class="section-title">Old niche vs new niche</div>
   <div class="compare-grid">
     <div class="compare-box" style="opacity:0.65;">
-      <div class="compare-label" style="color:var(--red);">❌ Gameplays</div>
-      <div class="row">⏳ The video dies in 2-3 days</div>
-      <div class="row">🔍 Nobody searches for them</div>
-      <div class="row">🎲 Growth depends on algorithm luck</div>
-      <div class="row">👥 Casual viewers who never subscribe</div>
+      <div class="compare-label" style="color:var(--red);"><svg class="ic"><use href="#i-close"></use></svg> Gameplays</div>
+      <div class="row"><svg class="ic"><use href="#i-hourglass"></use></svg> The video dies in 2-3 days</div>
+      <div class="row"><svg class="ic"><use href="#i-search"></use></svg> Nobody searches for them</div>
+      <div class="row"><svg class="ic"><use href="#i-dice"></use></svg> Growth depends on algorithm luck</div>
+      <div class="row"><svg class="ic"><use href="#i-users"></use></svg> Casual viewers who never subscribe</div>
     </div>
     <div class="compare-box" style="border-color:var(--green);">
-      <div class="compare-label" style="color:var(--green);">✅ Game Reviews & Analysis</div>
-      <div class="row">♾️ The video racks up views for 2-3 years</div>
-      <div class="row">🔍 Answers real searches</div>
-      <div class="row">🧱 Cumulative, predictable growth</div>
-      <div class="row">👥 Gamers who trust your take and come back</div>
+      <div class="compare-label" style="color:var(--green);"><svg class="ic"><use href="#i-check"></use></svg> Game Reviews & Analysis</div>
+      <div class="row"><svg class="ic"><use href="#i-infinity"></use></svg> The video racks up views for 2-3 years</div>
+      <div class="row"><svg class="ic"><use href="#i-search"></use></svg> Answers real searches</div>
+      <div class="row"><svg class="ic"><use href="#i-layers"></use></svg> Cumulative, predictable growth</div>
+      <div class="row"><svg class="ic"><use href="#i-users"></use></svg> Gamers who trust your take and come back</div>
     </div>
   </div>
 
@@ -174,7 +218,7 @@
 
   <div class="pillar" style="border-color:var(--accent);">
     <div class="pillar-head">
-      <div class="pillar-name">📜 Retrospectives</div>
+      <div class="pillar-name"><svg class="ic"><use href="#i-scroll"></use></svg> Retrospectives</div>
       <div class="badge badge-purple">Highest view potential</div>
     </div>
     <div class="pillar-what">Analyze a game years later: what made it great or why it failed. People watch it like a documentary.</div>
@@ -184,7 +228,7 @@
 
   <div class="pillar" style="border-color:var(--blue);">
     <div class="pillar-head">
-      <div class="pillar-name">🔄 Still worth playing?</div>
+      <div class="pillar-name"><svg class="ic"><use href="#i-refresh"></use></svg> Still worth playing?</div>
       <div class="badge badge-blue">Constant search demand</div>
     </div>
     <div class="pillar-what">Revisit a classic and answer whether it holds up today. Infinite topics: 30 years of games available.</div>
@@ -193,7 +237,7 @@
 
   <div class="pillar" style="border-color:var(--green);">
     <div class="pillar-head">
-      <div class="pillar-name">💎 Hidden gems</div>
+      <div class="pillar-name"><svg class="ic"><use href="#i-gem"></use></svg> Hidden gems</div>
       <div class="badge badge-green">Builds loyalty</div>
     </div>
     <div class="pillar-what">Excellent games nobody covers. The viewer who discovers a great game through you stays forever.</div>
@@ -202,7 +246,7 @@
 
   <div class="pillar" style="border-color:var(--yellow);">
     <div class="pillar-head">
-      <div class="pillar-name">🧠 Design analysis</div>
+      <div class="pillar-name"><svg class="ic"><use href="#i-brain"></use></svg> Design analysis</div>
       <div class="badge badge-yellow">Builds authority</div>
     </div>
     <div class="pillar-what">Explain why a mechanic works. Positions the channel as an expert, not just another opinion.</div>
@@ -211,7 +255,7 @@
 
   <div class="pillar" style="border-color:var(--accent2);">
     <div class="pillar-head">
-      <div class="pillar-name">⚖️ Verdict review</div>
+      <div class="pillar-name"><svg class="ic"><use href="#i-scale"></use></svg> Verdict review</div>
       <div class="badge badge-red">Captures buyers</div>
     </div>
     <div class="pillar-what">The exact question before buying: should I get it or not? Short, spoiler-free, clear verdict.</div>
@@ -240,20 +284,20 @@
 
   <div class="section-title">The system: Monday batch recording</div>
   <div class="big-statement" style="border-color:var(--red);">
-    <div class="bs-title">🎬 Recording happens ONE day only: Monday. Voice and camera for all 3 videos of the week.</div>
+    <div class="bs-title"><svg class="ic ic-lg"><use href="#i-clapper"></use></svg> Recording happens ONE day only: Monday. Voice and camera for all 3 videos of the week.</div>
     <div class="bs-body">Recording is what takes the most energy and setup (lights, mic, being "camera-ready"). By concentrating it into one day, the setup happens once and the other 6 days are free for stress-free editing and publishing. It's the same system big channels use: batch recording.</div>
   </div>
 
   <div class="grid-3 mb-16">
     <div class="phase-card" style="border-color:var(--green);">
-      <div class="phase-title">🔍 Pre-production</div>
+      <div class="phase-title"><svg class="ic"><use href="#i-search"></use></svg> Pre-production</div>
       <div class="phase-time">Fri-Sun (before Monday)</div>
       <div class="step"><span>1.</span><span><b>Pick the week's 3 topics</b> and validate the searches on YouTube</span></div>
       <div class="step"><span>2.</span><span><b>Write the 3 scripts</b> (AI generates the base, you add your take)</span></div>
       <div class="step"><span>3.</span><span><b>Capture the gameplay</b> for the 3 games during the prior week</span></div>
     </div>
     <div class="phase-card" style="border-color:var(--red);">
-      <div class="phase-title">🎬 MONDAY: Recording</div>
+      <div class="phase-title"><svg class="ic"><use href="#i-clapper"></use></svg> MONDAY: Recording</div>
       <div class="phase-time">1 day · 3 complete videos</div>
       <div class="step"><span>1.</span><span><b>Set up once</b> — lights, mic, camera</span></div>
       <div class="step"><span>2.</span><span><b>Record voiceover for all 3 scripts</b> back to back (~45 min)</span></div>
@@ -261,7 +305,7 @@
       <div class="step"><span>4.</span><span><b>Organize the footage</b> into one folder per video</span></div>
     </div>
     <div class="phase-card" style="border-color:var(--yellow);">
-      <div class="phase-title">✂️ Tue-Sat: Editing</div>
+      <div class="phase-title"><svg class="ic"><use href="#i-scissors"></use></svg> Tue-Sat: Editing</div>
       <div class="phase-time">1 video edited & published every 2 days</div>
       <div class="step"><span>1.</span><span><b>Edit on the template</b> — one video per editing session</span></div>
       <div class="step"><span>2.</span><span><b>Thumbnail + title + description</b> from fixed templates</span></div>
@@ -272,12 +316,12 @@
   <div class="section-title">Typical week — 1 recording day, 3 videos published</div>
   <div class="week mb-16">
     <div class="wd record">
-      <div class="wd-n">MON 🎬</div>
+      <div class="wd-n"><svg class="ic"><use href="#i-clapper"></use></svg> MON</div>
       <div class="wd-task hl">Record voice ×3</div>
       <div class="wd-task hl">Record facecam ×3</div>
     </div>
     <div class="wd pub">
-      <div class="wd-n">TUE ⬆️</div>
+      <div class="wd-n"><svg class="ic"><use href="#i-arrow-up"></use></svg> TUE</div>
       <div class="wd-task hl">Publish V1</div>
       <div class="wd-task">Edit V2</div>
     </div>
@@ -287,7 +331,7 @@
       <div class="wd-task">V1 metrics</div>
     </div>
     <div class="wd pub">
-      <div class="wd-n">THU ⬆️</div>
+      <div class="wd-n"><svg class="ic"><use href="#i-arrow-up"></use></svg> THU</div>
       <div class="wd-task hl">Publish V2</div>
       <div class="wd-task">Edit V3</div>
     </div>
@@ -297,7 +341,7 @@
       <div class="wd-task">Pick next 3 topics</div>
     </div>
     <div class="wd pub">
-      <div class="wd-n">SAT ⬆️</div>
+      <div class="wd-n"><svg class="ic"><use href="#i-arrow-up"></use></svg> SAT</div>
       <div class="wd-task hl">Publish V3</div>
       <div class="wd-task">Next week's scripts</div>
     </div>
@@ -326,7 +370,7 @@
 
   <div class="section-title">The streak — weeks completed</div>
   <div class="card mb-16">
-    <div class="card-title">Every week counts: 🎬 Monday recorded + 3 videos published = 1 completed week · Click a cell to mark it</div>
+    <div class="card-title"><svg class="ic"><use href="#i-clapper"></use></svg> Every week counts: Monday recorded + 3 videos published = 1 completed week · Click a cell to mark it</div>
     <div class="streak-row" id="streak"></div>
     <div style="font-size:11px; color:var(--text2);">Your progress saves in this file's browser storage. The streak becomes the habit, and the habit builds the channel.</div>
   </div>
@@ -342,15 +386,15 @@
   <div class="section-title">The 3 quality checks (after consistency)</div>
   <div class="grid-3 mb-16">
     <div class="card">
-      <div class="card-title">👁️ CTR — Target: 5%+</div>
+      <div class="card-title"><svg class="ic"><use href="#i-eye"></use></svg> CTR — Target: 5%+</div>
       <div style="font-size:12px; color:var(--text2);">Out of every 100 people who see the thumbnail, 5 click. If it's under 3%, change the thumbnail.</div>
     </div>
     <div class="card">
-      <div class="card-title">⏱️ Retention — Target: 45%+</div>
+      <div class="card-title"><svg class="ic"><use href="#i-clock"></use></svg> Retention — Target: 45%+</div>
       <div style="font-size:12px; color:var(--text2);">On a 10-minute video, people watch at least 4.5 minutes. If they leave early, improve the hook.</div>
     </div>
     <div class="card">
-      <div class="card-title">➕ Sub rate — Target: 2%</div>
+      <div class="card-title"><svg class="ic"><use href="#i-plus"></use></svg> Sub rate — Target: 2%</div>
       <div style="font-size:12px; color:var(--text2);">2 subscribers per 100 views. The signal that the niche is well chosen.</div>
     </div>
   </div>
@@ -372,7 +416,7 @@
   <div style="font-size:12px; color:var(--text2); margin-bottom:14px;">Organized by pillar, following the 3/2/2/2/1 mix. Before recording each one, run the SEO rule: type the title into YouTube search and confirm demand. Swap any game for one you know better — the format is what matters.</div>
 
   <div class="card mb-16">
-    <div class="card-title" style="color:#a89fff;">📜 Retrospectives (6)</div>
+    <div class="card-title" style="color:#a89fff;"><svg class="ic"><use href="#i-scroll"></use></svg> Retrospectives (6)</div>
     <table class="idea-table">
       <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
       <tr><td>1</td><td class="idea-title">Cyberpunk 2077 — 6 Years Later</td><td>Legendary redemption arc, huge search volume</td></tr>
@@ -385,7 +429,7 @@
   </div>
 
   <div class="card mb-16">
-    <div class="card-title" style="color:var(--blue);">🔄 Still Worth Playing? (4)</div>
+    <div class="card-title" style="color:var(--blue);"><svg class="ic"><use href="#i-refresh"></use></svg> Still Worth Playing? (4)</div>
     <table class="idea-table">
       <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
       <tr><td>7</td><td class="idea-title">Is Red Dead Redemption 2 Still Worth Playing in 2026?</td><td>Constant search demand, always on sale</td></tr>
@@ -396,7 +440,7 @@
   </div>
 
   <div class="card mb-16">
-    <div class="card-title" style="color:var(--green);">💎 Hidden Gems (4)</div>
+    <div class="card-title" style="color:var(--green);"><svg class="ic"><use href="#i-gem"></use></svg> Hidden Gems (4)</div>
     <table class="idea-table">
       <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
       <tr><td>11</td><td class="idea-title">10 Hidden Gems You Missed in 2025</td><td>List format, shareable, new-sub magnet</td></tr>
@@ -407,7 +451,7 @@
   </div>
 
   <div class="card mb-16">
-    <div class="card-title" style="color:var(--yellow);">🧠 Design Analysis (4)</div>
+    <div class="card-title" style="color:var(--yellow);"><svg class="ic"><use href="#i-brain"></use></svg> Design Analysis (4)</div>
     <table class="idea-table">
       <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
       <tr><td>15</td><td class="idea-title">Why Hades' Combat Feels So Good</td><td>Beloved game, clear design lesson</td></tr>
@@ -418,7 +462,7 @@
   </div>
 
   <div class="card mb-16">
-    <div class="card-title" style="color:var(--accent2);">⚖️ Verdict Reviews (2)</div>
+    <div class="card-title" style="color:var(--accent2);"><svg class="ic"><use href="#i-scale"></use></svg> Verdict Reviews (2)</div>
     <table class="idea-table">
       <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
       <tr><td>19</td><td class="idea-title">[Newest indie release] Review — Worth It? (No Spoilers)</td><td>Pick whatever launched this month — speed wins here</td></tr>
@@ -449,16 +493,20 @@ const WEEKS = 12;
 const streakEl = document.getElementById('streak');
 let done = [];
 try { done = JSON.parse(localStorage.getItem('yt-streak') || '[]'); } catch(e) {}
+const checkSvg = '<svg class="ic"><use href="#i-check"></use></svg>';
+function renderCell(c, i) {
+  const isDone = done.includes(i);
+  c.className = 'streak-cell' + (isDone ? ' done' : '');
+  c.innerHTML = 'W' + (i+1) + (isDone ? checkSvg : '');
+}
 for (let i = 0; i < WEEKS; i++) {
   const c = document.createElement('div');
-  c.className = 'streak-cell' + (done.includes(i) ? ' done' : '');
-  c.textContent = done.includes(i) ? 'W' + (i+1) + ' ✓' : 'W' + (i+1);
+  renderCell(c, i);
   c.onclick = () => {
     const idx = done.indexOf(i);
     if (idx >= 0) done.splice(idx, 1); else done.push(i);
     try { localStorage.setItem('yt-streak', JSON.stringify(done)); } catch(e) {}
-    c.classList.toggle('done');
-    c.textContent = done.includes(i) ? 'W' + (i+1) + ' ✓' : 'W' + (i+1);
+    renderCell(c, i);
   };
   streakEl.appendChild(c);
 }
