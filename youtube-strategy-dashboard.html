@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Strategy Dashboard — Gaming Reviews</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0d0d0f; --surface: #141418; --surface2: #1c1c22; --surface3: #242430;
+    --border: #2a2a36; --accent: #6c63ff; --accent2: #ff6584;
+    --text: #e8e8f0; --text2: #9090a8; --text3: #5a5a72;
+    --red: #ff4757; --green: #2ed573; --yellow: #ffa502; --blue: #1e90ff;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 13px; line-height: 1.5; }
+
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 20px 24px; border-bottom: 1px solid var(--border); }
+  .channel-badge { display:inline-block; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .header h1 { font-size: 20px; font-weight: 700; color: white; }
+  .header p { font-size: 12px; color: var(--text2); }
+
+  .tabs { display: flex; gap: 2px; padding: 12px 24px 0; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .tab { padding: 8px 18px; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { padding: 20px 24px; max-width: 900px; margin: 0 auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  @media (max-width: 700px) { .grid-3 { grid-template-columns: 1fr; } .compare-grid { grid-template-columns: 1fr !important; } .week { grid-template-columns: repeat(4, 1fr) !important; } .stat-row { grid-template-columns: 1fr 1fr !important; } .mix { grid-template-columns: repeat(3, 1fr) !important; } }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .card-title { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+
+  .badge { display: inline-flex; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+  .badge-green { background: rgba(46,213,115,0.15); color: var(--green); }
+  .badge-purple { background: rgba(108,99,255,0.2); color: #a89fff; }
+  .badge-blue { background: rgba(30,144,255,0.15); color: var(--blue); }
+  .badge-yellow { background: rgba(255,165,2,0.15); color: var(--yellow); }
+  .badge-red { background: rgba(255,71,87,0.15); color: var(--red); }
+
+  .section-title { font-size: 12px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; margin: 22px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-title:first-child { margin-top: 0; }
+
+  .big-statement { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 12px; border-left: 4px solid; }
+  .bs-title { font-size: 15px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .bs-body { font-size: 12.5px; color: var(--text2); line-height: 1.65; }
+
+  .pillar { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; border-left: 4px solid; }
+  .pillar-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 6px; }
+  .pillar-name { font-size: 14px; font-weight: 700; }
+  .pillar-what { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
+  .example-title { font-family: monospace; font-size: 11px; color: var(--accent); background: rgba(108,99,255,0.08); padding: 3px 8px; border-radius: 4px; display: inline-block; margin: 2px 4px 2px 0; }
+
+  .phase-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; border-top: 3px solid; }
+  .phase-title { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .phase-time { font-size: 11px; color: var(--text3); margin-bottom: 10px; }
+  .step { display: flex; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--text2); }
+  .step b { color: var(--text); }
+
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 4px; }
+  .compare-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .compare-label { font-size: 11px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .row { display: flex; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--text2); border-bottom: 1px solid var(--border); }
+  .row:last-child { border-bottom: none; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 4px; }
+  .stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 800; color: white; }
+  .stat-lbl { font-size: 10px; color: var(--text2); margin-top: 2px; }
+
+  .mix { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .mix-item { background: var(--surface2); border-radius: 8px; padding: 10px; text-align: center; border-top: 3px solid; }
+  .mix-num { font-size: 18px; font-weight: 800; }
+  .mix-lbl { font-size: 9.5px; color: var(--text2); }
+
+  .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .wd { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 6px; text-align: center; min-height: 92px; }
+  .wd.record { border-color: var(--red); background: rgba(255,71,87,0.06); }
+  .wd.pub { border-color: var(--accent); }
+  .wd-n { font-size: 10px; font-weight: 800; color: var(--text3); letter-spacing: 0.5px; }
+  .wd.record .wd-n { color: var(--red); }
+  .wd.pub .wd-n { color: var(--accent); }
+  .wd-task { font-size: 10px; color: var(--text2); background: var(--surface3); border-radius: 4px; padding: 3px 5px; margin-top: 5px; }
+  .wd-task.hl { color: var(--text); font-weight: 600; }
+
+  .streak-row { display: flex; gap: 6px; margin: 4px 0 8px; flex-wrap: wrap; }
+  .streak-cell { flex: 1; min-width: 48px; height: 26px; border-radius: 6px; background: var(--surface3); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text3); cursor: pointer; user-select: none; }
+  .streak-cell.done { background: rgba(46,213,115,0.18); color: var(--green); }
+
+  .idea-table { width: 100%; border-collapse: collapse; }
+  .idea-table th { text-align: left; font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .idea-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .idea-table tr:last-child td { border-bottom: none; }
+  .idea-table tr:hover td { background: var(--surface2); }
+  .idea-title { font-family: monospace; font-size: 11px; color: var(--accent); }
+
+  .mb-16 { margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="channel-badge">🎮 Gaming Channel · US</div>
+  <h1>YouTube Strategy Dashboard</h1>
+  <p>From gameplays to game reviews — the strategy in 4 sections</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('estrategia')">🎯 Strategy</div>
+  <div class="tab" onclick="switchTab('contenido')">🏛️ Content</div>
+  <div class="tab" onclick="switchTab('produccion')">⚙️ Production</div>
+  <div class="tab" onclick="switchTab('metas')">📊 Goals</div>
+  <div class="tab" onclick="switchTab('ideas')">💡 Idea Bank</div>
+</div>
+
+<div class="content">
+
+<!-- ============ 1. STRATEGY ============ -->
+<div id="panel-estrategia" class="panel active">
+
+  <div class="section-title">The change in one sentence</div>
+  <div class="big-statement" style="border-color:var(--accent);">
+    <div class="bs-title">We stop showing how we play and start answering what gamers are already searching for</div>
+    <div class="bs-body">
+      Nobody searches for gameplays from small channels — they die within 48 hours. Meanwhile, millions of people search "is this game worth it?" or "why did this game fail?" every single day. We're going to answer those questions with quality videos. Each video keeps working for years, so the channel grows on its own over time.
+    </div>
+  </div>
+
+  <div class="section-title">Old niche vs new niche</div>
+  <div class="compare-grid">
+    <div class="compare-box" style="opacity:0.65;">
+      <div class="compare-label" style="color:var(--red);">❌ Gameplays</div>
+      <div class="row">⏳ The video dies in 2-3 days</div>
+      <div class="row">🔍 Nobody searches for them</div>
+      <div class="row">🎲 Growth depends on algorithm luck</div>
+      <div class="row">👥 Casual viewers who never subscribe</div>
+    </div>
+    <div class="compare-box" style="border-color:var(--green);">
+      <div class="compare-label" style="color:var(--green);">✅ Game Reviews & Analysis</div>
+      <div class="row">♾️ The video racks up views for 2-3 years</div>
+      <div class="row">🔍 Answers real searches</div>
+      <div class="row">🧱 Cumulative, predictable growth</div>
+      <div class="row">👥 Gamers who trust your take and come back</div>
+    </div>
+  </div>
+
+  <div class="section-title">The channel's 3 rules</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">1 · Quality first</div>
+      <div style="font-size:12px; color:var(--text2);">Every video must be the best available answer to a real gamer question.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">2 · Copy what's proven</div>
+      <div style="font-size:12px; color:var(--text2);">We only use formats already working on mid-size channels with million-view videos. Zero from-scratch experiments.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">3 · Consistency</div>
+      <div style="font-size:12px; color:var(--text2);">3 videos recorded every Monday, published through the week. The plan doesn't need viral hits — it needs consistency.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ 2. CONTENT ============ -->
+<div id="panel-contenido" class="panel">
+
+  <div class="section-title">The 5 video types (proven formats)</div>
+  <div style="font-size:12px; color:var(--text2); margin-bottom:14px;">Every format is validated: mid-size channels use them to land videos with millions of views. Each example title is also the search it captures.</div>
+
+  <div class="pillar" style="border-color:var(--accent);">
+    <div class="pillar-head">
+      <div class="pillar-name">📜 Retrospectives</div>
+      <div class="badge badge-purple">Highest view potential</div>
+    </div>
+    <div class="pillar-what">Analyze a game years later: what made it great or why it failed. People watch it like a documentary.</div>
+    <span class="example-title">[Game] — 5 Years Later</span>
+    <span class="example-title">The Downfall of [Franchise]</span>
+  </div>
+
+  <div class="pillar" style="border-color:var(--blue);">
+    <div class="pillar-head">
+      <div class="pillar-name">🔄 Still worth playing?</div>
+      <div class="badge badge-blue">Constant search demand</div>
+    </div>
+    <div class="pillar-what">Revisit a classic and answer whether it holds up today. Infinite topics: 30 years of games available.</div>
+    <span class="example-title">Is [Classic] Still Worth Playing in 2026?</span>
+  </div>
+
+  <div class="pillar" style="border-color:var(--green);">
+    <div class="pillar-head">
+      <div class="pillar-name">💎 Hidden gems</div>
+      <div class="badge badge-green">Builds loyalty</div>
+    </div>
+    <div class="pillar-what">Excellent games nobody covers. The viewer who discovers a great game through you stays forever.</div>
+    <span class="example-title">10 Hidden Gems You Missed in 2026</span>
+  </div>
+
+  <div class="pillar" style="border-color:var(--yellow);">
+    <div class="pillar-head">
+      <div class="pillar-name">🧠 Design analysis</div>
+      <div class="badge badge-yellow">Builds authority</div>
+    </div>
+    <div class="pillar-what">Explain why a mechanic works. Positions the channel as an expert, not just another opinion.</div>
+    <span class="example-title">Why [Game]'s Combat Feels So Good</span>
+  </div>
+
+  <div class="pillar" style="border-color:var(--accent2);">
+    <div class="pillar-head">
+      <div class="pillar-name">⚖️ Verdict review</div>
+      <div class="badge badge-red">Captures buyers</div>
+    </div>
+    <div class="pillar-what">The exact question before buying: should I get it or not? Short, spoiler-free, clear verdict.</div>
+    <span class="example-title">[Game] Review — Worth It? (No Spoilers)</span>
+  </div>
+
+  <div class="section-title">Mix per every 10 videos</div>
+  <div class="mix">
+    <div class="mix-item" style="border-color:var(--accent);"><div class="mix-num">3</div><div class="mix-lbl">Retrospectives</div></div>
+    <div class="mix-item" style="border-color:var(--blue);"><div class="mix-num">2</div><div class="mix-lbl">Still Worth It</div></div>
+    <div class="mix-item" style="border-color:var(--green);"><div class="mix-num">2</div><div class="mix-lbl">Hidden Gems</div></div>
+    <div class="mix-item" style="border-color:var(--yellow);"><div class="mix-num">2</div><div class="mix-lbl">Analysis</div></div>
+    <div class="mix-item" style="border-color:var(--accent2);"><div class="mix-num">1</div><div class="mix-lbl">Verdict</div></div>
+  </div>
+
+  <div class="section-title">SEO rule — just one</div>
+  <div class="big-statement" style="border-color:var(--green); margin-bottom:0;">
+    <div class="bs-title">Before recording, type the title into YouTube's search bar</div>
+    <div class="bs-body">If it autocompletes, there's real demand. If the top results have under 100K views, you can compete. The title IS the search — if nobody would type it into YouTube, the title is wrong.</div>
+  </div>
+
+</div>
+
+<!-- ============ 3. PRODUCTION ============ -->
+<div id="panel-produccion" class="panel">
+
+  <div class="section-title">The system: Monday batch recording</div>
+  <div class="big-statement" style="border-color:var(--red);">
+    <div class="bs-title">🎬 Recording happens ONE day only: Monday. Voice and camera for all 3 videos of the week.</div>
+    <div class="bs-body">Recording is what takes the most energy and setup (lights, mic, being "camera-ready"). By concentrating it into one day, the setup happens once and the other 6 days are free for stress-free editing and publishing. It's the same system big channels use: batch recording.</div>
+  </div>
+
+  <div class="grid-3 mb-16">
+    <div class="phase-card" style="border-color:var(--green);">
+      <div class="phase-title">🔍 Pre-production</div>
+      <div class="phase-time">Fri-Sun (before Monday)</div>
+      <div class="step"><span>1.</span><span><b>Pick the week's 3 topics</b> and validate the searches on YouTube</span></div>
+      <div class="step"><span>2.</span><span><b>Write the 3 scripts</b> (AI generates the base, you add your take)</span></div>
+      <div class="step"><span>3.</span><span><b>Capture the gameplay</b> for the 3 games during the prior week</span></div>
+    </div>
+    <div class="phase-card" style="border-color:var(--red);">
+      <div class="phase-title">🎬 MONDAY: Recording</div>
+      <div class="phase-time">1 day · 3 complete videos</div>
+      <div class="step"><span>1.</span><span><b>Set up once</b> — lights, mic, camera</span></div>
+      <div class="step"><span>2.</span><span><b>Record voiceover for all 3 scripts</b> back to back (~45 min)</span></div>
+      <div class="step"><span>3.</span><span><b>Record facecam</b> for all 3 videos back to back</span></div>
+      <div class="step"><span>4.</span><span><b>Organize the footage</b> into one folder per video</span></div>
+    </div>
+    <div class="phase-card" style="border-color:var(--yellow);">
+      <div class="phase-title">✂️ Tue-Sat: Editing</div>
+      <div class="phase-time">1 video edited & published every 2 days</div>
+      <div class="step"><span>1.</span><span><b>Edit on the template</b> — one video per editing session</span></div>
+      <div class="step"><span>2.</span><span><b>Thumbnail + title + description</b> from fixed templates</span></div>
+      <div class="step"><span>3.</span><span><b>Publish</b> Tuesday, Thursday and Saturday at 11am EST</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Typical week — 1 recording day, 3 videos published</div>
+  <div class="week mb-16">
+    <div class="wd record">
+      <div class="wd-n">MON 🎬</div>
+      <div class="wd-task hl">Record voice ×3</div>
+      <div class="wd-task hl">Record facecam ×3</div>
+    </div>
+    <div class="wd pub">
+      <div class="wd-n">TUE ⬆️</div>
+      <div class="wd-task hl">Publish V1</div>
+      <div class="wd-task">Edit V2</div>
+    </div>
+    <div class="wd">
+      <div class="wd-n">WED</div>
+      <div class="wd-task">Edit V2</div>
+      <div class="wd-task">V1 metrics</div>
+    </div>
+    <div class="wd pub">
+      <div class="wd-n">THU ⬆️</div>
+      <div class="wd-task hl">Publish V2</div>
+      <div class="wd-task">Edit V3</div>
+    </div>
+    <div class="wd">
+      <div class="wd-n">FRI</div>
+      <div class="wd-task">Edit V3</div>
+      <div class="wd-task">Pick next 3 topics</div>
+    </div>
+    <div class="wd pub">
+      <div class="wd-n">SAT ⬆️</div>
+      <div class="wd-task hl">Publish V3</div>
+      <div class="wd-task">Next week's scripts</div>
+    </div>
+    <div class="wd">
+      <div class="wd-n">SUN</div>
+      <div class="wd-task">Capture gameplay</div>
+      <div class="wd-task">Prep for Monday</div>
+    </div>
+  </div>
+
+  <div class="big-statement" style="border-color:var(--accent); margin-bottom:0;">
+    <div class="bs-title">Why batching works</div>
+    <div class="bs-body">A single "camera day" per week removes the biggest friction in content creation: getting ready to record. The rest of the week is calm editing work you can do at any hour. And if a Monday is ever missed, the previous week already left material as a buffer. Everything runs on templates — script, edit project, thumbnail — nothing is ever created from scratch twice.</div>
+  </div>
+
+</div>
+
+<!-- ============ 4. GOALS ============ -->
+<div id="panel-metas" class="panel">
+
+  <div class="section-title">The #1 metric: consistency</div>
+  <div class="big-statement" style="border-color:var(--accent);">
+    <div class="bs-title">The only goal that matters: never miss a Monday</div>
+    <div class="bs-body">Views, subscribers and rankings are outcomes — you can't control them directly. What you CAN control is showing up: 1 recording day + 3 published videos, every single week. If the streak stays alive, everything else follows. The channel isn't measured in views; it's measured in weeks completed.</div>
+  </div>
+
+  <div class="section-title">The streak — weeks completed</div>
+  <div class="card mb-16">
+    <div class="card-title">Every week counts: 🎬 Monday recorded + 3 videos published = 1 completed week · Click a cell to mark it</div>
+    <div class="streak-row" id="streak"></div>
+    <div style="font-size:11px; color:var(--text2);">Your progress saves in this file's browser storage. The streak becomes the habit, and the habit builds the channel.</div>
+  </div>
+
+  <div class="section-title">What consistency produces — published videos</div>
+  <div class="stat-row mb-16">
+    <div class="stat"><div class="stat-num">24</div><div class="stat-lbl">Month 2 · 8 weeks</div></div>
+    <div class="stat"><div class="stat-num">72</div><div class="stat-lbl">Month 6 · 24 weeks</div></div>
+    <div class="stat"><div class="stat-num">150</div><div class="stat-lbl">Month 12 · 50 weeks</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--accent);">300</div><div class="stat-lbl">Year 2 · 100 weeks</div></div>
+  </div>
+
+  <div class="section-title">The 3 quality checks (after consistency)</div>
+  <div class="grid-3 mb-16">
+    <div class="card">
+      <div class="card-title">👁️ CTR — Target: 5%+</div>
+      <div style="font-size:12px; color:var(--text2);">Out of every 100 people who see the thumbnail, 5 click. If it's under 3%, change the thumbnail.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">⏱️ Retention — Target: 45%+</div>
+      <div style="font-size:12px; color:var(--text2);">On a 10-minute video, people watch at least 4.5 minutes. If they leave early, improve the hook.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">➕ Sub rate — Target: 2%</div>
+      <div style="font-size:12px; color:var(--text2);">2 subscribers per 100 views. The signal that the niche is well chosen.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Year one milestones — measured in weeks, not views</div>
+  <div class="card" style="margin-bottom:0;">
+    <div class="row"><span class="badge badge-purple" style="min-width:70px; justify-content:center;">Weeks 1-4</span><span>Batch system mastered — 4 Mondays completed, channel voice starting to show</span></div>
+    <div class="row"><span class="badge badge-blue" style="min-width:70px; justify-content:center;">Weeks 5-12</span><span>12-week streak — first video ranking in search, best-performing format identified</span></div>
+    <div class="row"><span class="badge badge-yellow" style="min-width:70px; justify-content:center;">Weeks 13-24</span><span>Half a year without missing a Monday — library with compounding traffic</span></div>
+    <div class="row"><span class="badge badge-green" style="min-width:70px; justify-content:center;">Weeks 25-50</span><span>A full year of consistency — a channel with identity and authority in its niche</span></div>
+  </div>
+
+</div>
+
+<!-- ============ 5. IDEA BANK ============ -->
+<div id="panel-ideas" class="panel">
+
+  <div class="section-title">The first 20 videos — ready to validate</div>
+  <div style="font-size:12px; color:var(--text2); margin-bottom:14px;">Organized by pillar, following the 3/2/2/2/1 mix. Before recording each one, run the SEO rule: type the title into YouTube search and confirm demand. Swap any game for one you know better — the format is what matters.</div>
+
+  <div class="card mb-16">
+    <div class="card-title" style="color:#a89fff;">📜 Retrospectives (6)</div>
+    <table class="idea-table">
+      <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
+      <tr><td>1</td><td class="idea-title">Cyberpunk 2077 — 6 Years Later</td><td>Legendary redemption arc, huge search volume</td></tr>
+      <tr><td>2</td><td class="idea-title">The Downfall of Overwatch</td><td>Massive fanbase still asking what happened</td></tr>
+      <tr><td>3</td><td class="idea-title">Skyrim — Why We Never Left</td><td>15 years of relevance, evergreen nostalgia</td></tr>
+      <tr><td>4</td><td class="idea-title">What Happened to Ubisoft?</td><td>Ongoing story, high curiosity search</td></tr>
+      <tr><td>5</td><td class="idea-title">Elden Ring — The Game That Changed Open Worlds</td><td>Design retrospective with huge audience</td></tr>
+      <tr><td>6</td><td class="idea-title">The Rise and Fall of Guitar Hero</td><td>Nostalgia + documentary appeal, low competition</td></tr>
+    </table>
+  </div>
+
+  <div class="card mb-16">
+    <div class="card-title" style="color:var(--blue);">🔄 Still Worth Playing? (4)</div>
+    <table class="idea-table">
+      <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
+      <tr><td>7</td><td class="idea-title">Is Red Dead Redemption 2 Still Worth Playing in 2026?</td><td>Constant search demand, always on sale</td></tr>
+      <tr><td>8</td><td class="idea-title">Is The Witcher 3 Still Worth It in 2026?</td><td>Netflix show keeps bringing new players</td></tr>
+      <tr><td>9</td><td class="idea-title">Is Hollow Knight Worth Playing Before Silksong?</td><td>Timely hook + evergreen backlog question</td></tr>
+      <tr><td>10</td><td class="idea-title">Is Minecraft Still Worth Playing in 2026?</td><td>Biggest game ever, endless new-player influx</td></tr>
+    </table>
+  </div>
+
+  <div class="card mb-16">
+    <div class="card-title" style="color:var(--green);">💎 Hidden Gems (4)</div>
+    <table class="idea-table">
+      <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
+      <tr><td>11</td><td class="idea-title">10 Hidden Gems You Missed in 2025</td><td>List format, shareable, new-sub magnet</td></tr>
+      <tr><td>12</td><td class="idea-title">This Indie Deserves Your Attention (Under 500 Reviews)</td><td>Pick from Steam: 90%+ positive, &lt;500 reviews</td></tr>
+      <tr><td>13</td><td class="idea-title">5 GamePass Games Nobody Is Talking About</td><td>Platform hook = built-in audience</td></tr>
+      <tr><td>14</td><td class="idea-title">The Best Roguelike You've Never Heard Of</td><td>Genre fans are the most loyal searchers</td></tr>
+    </table>
+  </div>
+
+  <div class="card mb-16">
+    <div class="card-title" style="color:var(--yellow);">🧠 Design Analysis (4)</div>
+    <table class="idea-table">
+      <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
+      <tr><td>15</td><td class="idea-title">Why Hades' Combat Feels So Good</td><td>Beloved game, clear design lesson</td></tr>
+      <tr><td>16</td><td class="idea-title">How Balatro Hooks You (And Won't Let Go)</td><td>Addictive-design angle, high curiosity</td></tr>
+      <tr><td>17</td><td class="idea-title">Why No Game Has Copied Sekiro's Combat</td><td>Proven viral title structure in the niche</td></tr>
+      <tr><td>18</td><td class="idea-title">The Genius Level Design of Dark Souls 1</td><td>Endless fan discussion, evergreen</td></tr>
+    </table>
+  </div>
+
+  <div class="card mb-16">
+    <div class="card-title" style="color:var(--accent2);">⚖️ Verdict Reviews (2)</div>
+    <table class="idea-table">
+      <tr><th>#</th><th>Working title</th><th>Why this one</th></tr>
+      <tr><td>19</td><td class="idea-title">[Newest indie release] Review — Worth It? (No Spoilers)</td><td>Pick whatever launched this month — speed wins here</td></tr>
+      <tr><td>20</td><td class="idea-title">Is Xbox GamePass Worth It in 2026?</td><td>Buyer-intent question with year-round demand</td></tr>
+    </table>
+  </div>
+
+  <div class="big-statement" style="border-color:var(--green); margin-bottom:0;">
+    <div class="bs-title">How to use this bank</div>
+    <div class="bs-body">Every Friday, pick the next 3 (one from each of the top pillars when possible), validate each title in YouTube search, and write the scripts over the weekend. When the bank runs low, refill it: SteamDB for hidden gems, your own backlog for retrospectives, and YouTube autocomplete for "still worth playing" candidates. Never start a week without 3 validated topics.</div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const tabMap = ['estrategia','contenido','produccion','metas','ideas'];
+  document.querySelectorAll('.tab')[tabMap.indexOf(id)].classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// Streak tracker with localStorage persistence
+const WEEKS = 12;
+const streakEl = document.getElementById('streak');
+let done = [];
+try { done = JSON.parse(localStorage.getItem('yt-streak') || '[]'); } catch(e) {}
+for (let i = 0; i < WEEKS; i++) {
+  const c = document.createElement('div');
+  c.className = 'streak-cell' + (done.includes(i) ? ' done' : '');
+  c.textContent = done.includes(i) ? 'W' + (i+1) + ' ✓' : 'W' + (i+1);
+  c.onclick = () => {
+    const idx = done.indexOf(i);
+    if (idx >= 0) done.splice(idx, 1); else done.push(i);
+    try { localStorage.setItem('yt-streak', JSON.stringify(done)); } catch(e) {}
+    c.classList.toggle('done');
+    c.textContent = done.includes(i) ? 'W' + (i+1) + ' ✓' : 'W' + (i+1);
+  };
+  streakEl.appendChild(c);
+}
+</script>
+</body>
+</html>
